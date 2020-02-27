@@ -1,0 +1,9 @@
+{
+  "type": "postgres",
+  "host": "localhost",
+  "port": 5432,
+  "username": "pinhatai",
+  "password": "pinhatai",
+  "database": "pinhatai",
+  "entities": ["src/models/*.ts"]
+}
