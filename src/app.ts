@@ -50,7 +50,7 @@ const run = async () => {
       res.send(transformData(user))
     }
 
-    res.status(403)
+    res.send({})
   })
 
   const server = http.createServer(app)
