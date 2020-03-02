@@ -25,5 +25,10 @@
     "rimraf": "^3.0.2",
     "ts-node": "^8.6.2",
     "typescript": "^3.8.2"
+  },
+  "scripts": {
+    "dev": "nodemon",
+    "build": "rimraf ./dist && tsc",
+    "typeorm": "ts-node ./node_modules/typeorm/cli.js"
   }
 }
