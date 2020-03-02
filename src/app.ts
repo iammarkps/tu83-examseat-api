@@ -42,15 +42,15 @@ const run = async () => {
   })
 
   app.post('/getStudent', async (req, res) => {
-    const { Username, Password } = req.body
+    const { id, phone } = req.body
 
-    const user = await userRepository.findOne({ ctzid: Username })
+    const user = await userRepository.findOne({ ctzid: id })
 
-    if (user.phone === Password) {
+    if (user.phone === phone) {
       res.send(transformData(user))
     }
 
-    res.send({})
+    res.send()
   })
 
   const server = http.createServer(app)
