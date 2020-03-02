@@ -46,11 +46,15 @@ const run = async () => {
 
     const user = await userRepository.findOne({ ctzid: id })
 
-    if (user.phone === phone) {
-      res.send(transformData(user))
+    if (user) {
+      if (user.phone === phone) {
+        res.send(transformData(user))
+      }
+    } else {
+      res.send({ message: 'invalid' })
     }
 
-    res.send()
+    res.send({ message: 'invalid' })
   })
 
   const server = http.createServer(app)
