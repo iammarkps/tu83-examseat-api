@@ -5,10 +5,11 @@ import logger from 'morgan'
 import bodyParser from 'body-parser'
 import cors from 'cors'
 
-import { createConnection, getRepository } from 'typeorm'
+import { createConnection, getRepository, getConnection } from 'typeorm'
 
 import 'reflect-metadata'
 import { User } from './models/user'
+import { transformData } from './utils/transformData'
 
 const PORT = parseInt(process.env.PORT, 10) || 5000
 
@@ -46,7 +47,7 @@ const run = async () => {
     const user = await userRepository.findOne({ ctzid: Username })
 
     if (user.phone === Password) {
-      res.send(user)
+      res.send(transformData(user))
     }
 
     res.status(403)
@@ -60,3 +61,13 @@ const run = async () => {
 }
 
 run()
+
+process.on('SIGINT', async () => {
+  const connection = getConnection()
+
+  try {
+    await connection.close()
+  } catch (e) {
+    process.exit(e ? 1 : 0)
+  }
+})

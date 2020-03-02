@@ -8,6 +8,7 @@ export class User {
   @Column()
   type: string
 
+  // Add 0
   @Column()
   code: string
 
@@ -20,6 +21,7 @@ export class User {
   @Column()
   ctzid: string
 
+  // Add 0
   @Column()
   phone: string
 
