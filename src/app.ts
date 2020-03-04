@@ -1,17 +1,17 @@
 import express from 'express'
-import http from 'http'
+import https from 'https'
 import compression from 'compression'
 import logger from 'morgan'
 import bodyParser from 'body-parser'
 import cors from 'cors'
+import fs from 'fs'
 
 import { createConnection, getRepository, getConnection } from 'typeorm'
 
 import 'reflect-metadata'
 import { User } from './models/user'
-import { transformData } from './utils/transformData'
 
-const PORT = parseInt(process.env.PORT, 10) || 5000
+const PORT = parseInt(process.env.PORT, 10) || 8765
 
 const run = async () => {
   try {
@@ -46,18 +46,21 @@ const run = async () => {
 
     const user = await userRepository.findOne({ ctzid: id })
 
-    if (user) {
-      if (user.phone === phone) {
-        res.send(transformData(user))
-      }
+    if (user?.phone === phone) {
+      res.send(user)
     } else {
       res.send({ message: 'invalid' })
     }
-
-    res.send({ message: 'invalid' })
   })
 
-  const server = http.createServer(app)
+  const server = https.createServer(
+    {
+      key: fs.readFileSync('./key.pem'),
+      cert: fs.readFileSync('./crt.pem'),
+      ca: fs.readFileSync('./chain.pem')
+    },
+    app
+  )
 
   server.listen(PORT, () => {
     console.log(`Listening on port ${PORT}`)
